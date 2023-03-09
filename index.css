@@ -51,6 +51,7 @@ header{
 .tweet-textarea {
     border: none;
     resize: none;
+    overflow: hidden;
     padding: 10px;
     margin: 0 0 20px 0;
     height: 60px;
@@ -74,6 +75,7 @@ header{
 .reply-textarea {
     border: none;
     resize: none;
+    overflow: hidden;
     padding: 10px;
     height: 40px;
     font-size: 14px;
@@ -134,6 +136,7 @@ header{
 .tweet-header {
     display: flex;
     justify-content: space-between;
+    height: 14px;
 }
 
 .handle{
