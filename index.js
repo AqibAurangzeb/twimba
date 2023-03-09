@@ -1,4 +1,6 @@
 import { tweetsData } from './data.js'
+import { userData } from './data.js'
+
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
 const tweetOptionsModal = document.getElementById('tweet-options-modal')
@@ -18,6 +20,9 @@ document.addEventListener('click', function(e){
     }
     else if (e.target.dataset.deleteTweet) {
         handleDeleteTweetClick(e.target.dataset.deleteTweet)
+    }
+    else if (e.target.dataset.replyTweet) {
+        handleReplyTweetBtnClick(e.target.dataset.replyTweet)
     }
     else if (e.target.dataset.tweetOptions) {
         openModal(e)
@@ -66,8 +71,8 @@ function handleTweetBtnClick(){
 
     if(tweetInput.value){
         tweetsData.unshift({
-            handle: `@Aqib`,
-            profilePic: 'images/aqib.png',
+            handle: userData.handle,
+            profilePic: userData.profilePic,
             likes: 0,
             retweets: 0,
             tweetText: tweetInput.value,
@@ -93,6 +98,28 @@ function handleDeleteTweetClick(deleteTweetId) {
     closeModal()
 
     render()
+}
+
+function handleReplyTweetBtnClick(replyTweetId) {
+    const tweetReplyTextArea = document.getElementById(`tweet-reply-${replyTweetId}`)
+
+    if (tweetReplyTextArea.value) {
+        const tweetObj = tweetsData.filter(function(tweet) {
+            return tweet.uuid === replyTweetId
+        })[0]
+    
+        tweetObj.replies.unshift({
+            handle: userData.handle,
+            profilePic: userData.profilePic,
+            tweetText: tweetReplyTextArea.value,
+        })
+    
+        tweetReplyTextArea.value = ''
+    
+        render()
+
+        document.getElementById(`replies-${replyTweetId}`).classList.toggle('hidden')
+    }
 }
 
 function openModal(e) {
@@ -177,6 +204,17 @@ function getFeedHtml(){
                     </div>            
                 </div>
                 <div class="hidden" id="replies-${tweet.uuid}">
+                    <div class="tweet-reply">
+                        <div class="tweet-inner">
+                            <img src="${userData.profilePic}" class="profile-pic">
+                                <div>
+                                    <textarea class="reply-textarea" placeholder="Tweet your reply" id="tweet-reply-${tweet.uuid}"></textarea>
+                                    <div class="text-align-right">
+                                    <button class="reply-btn" data-reply-tweet="${tweet.uuid}">Reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                     ${repliesHtml}
                 </div>   
             </div>
