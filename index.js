@@ -204,16 +204,10 @@ function getFeedHtml(){
                     </div>            
                 </div>
                 <div class="hidden" id="replies-${tweet.uuid}">
-                    <div class="tweet-reply">
-                        <div class="tweet-inner">
-                            <img src="${userData.profilePic}" class="profile-pic">
-                                <div>
-                                    <textarea class="reply-textarea" placeholder="Tweet your reply" id="tweet-reply-${tweet.uuid}"></textarea>
-                                    <div class="text-align-right">
-                                    <button class="reply-btn" data-reply-tweet="${tweet.uuid}">Reply</button>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="reply">
+                        <img src="${userData.profilePic}" class="profile-pic">
+                        <textarea class="reply-textarea" placeholder="Tweet your reply" id="tweet-reply-${tweet.uuid}"></textarea>
+                        <button class="reply-btn" data-reply-tweet="${tweet.uuid}">Reply</button>
                     </div>
                     ${repliesHtml}
                 </div>   
