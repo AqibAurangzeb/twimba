@@ -105,6 +105,11 @@ button{
     width: 80%;
 }
 
+.tweet-header {
+    display: flex;
+    justify-content: space-between;
+}
+
 .handle{
     font-size: 12px;
     font-weight: 500;
@@ -124,6 +129,40 @@ button{
     border: 1px solid lightgray;
     border-radius: 50%;
     width: 48px;
+}
+
+/* modal */
+
+.tweet-options-modal {
+    display: none;
+    position: absolute;
+    left: 980;
+    top: 200;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #252525;
+    border-radius: 5px;
+    width: 250px;
+    height: 40px;
+    background-color: #FFF;
+}
+
+.tweet-options-modal-inner {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+    margin-top: 2px;
+}
+
+.tweet-options-modal-inner-item {
+    display: flex;
+    cursor: pointer;
+}
+
+.delete-option {
+    color: red;
+    margin-right: 5px;
+    pointer-events: none;
 }
 
 /* utility */

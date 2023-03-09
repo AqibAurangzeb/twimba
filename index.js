@@ -1,18 +1,29 @@
 import { tweetsData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
+const tweetOptionsModal = document.getElementById('tweet-options-modal')
+
 document.addEventListener('click', function(e){
-    if(e.target.dataset.like){
+    if (e.target.dataset.like){
        handleLikeClick(e.target.dataset.like) 
     }
-    else if(e.target.dataset.retweet){
+    else if (e.target.dataset.retweet){
         handleRetweetClick(e.target.dataset.retweet)
     }
-    else if(e.target.dataset.reply){
+    else if (e.target.dataset.reply){
         handleReplyClick(e.target.dataset.reply)
     }
-    else if(e.target.id === 'tweet-btn'){
+    else if (e.target.id === 'tweet-btn'){
         handleTweetBtnClick()
+    }
+    else if (e.target.dataset.deleteTweet) {
+        handleDeleteTweetClick(e.target.dataset.deleteTweet)
+    }
+    else if (e.target.dataset.tweetOptions) {
+        openModal(e)
+    }
+    else if(!e.target.closest('#tweet-options-modal')) {
+        closeModal()
     }
 })
  
@@ -72,6 +83,30 @@ function handleTweetBtnClick(){
 
 }
 
+function handleDeleteTweetClick(deleteTweetId) {
+    const deleteTweetIndex = tweetsData.map(function(tweet) {
+        return tweet.uuid
+    }).indexOf(deleteTweetId);
+    
+    tweetsData.splice(deleteTweetIndex, 1)
+
+    closeModal()
+
+    render()
+}
+
+function openModal(e) {
+    tweetOptionsModal.style.display = 'block'
+    tweetOptionsModal.style.left = e.target.offsetLeft
+    tweetOptionsModal.style.top = e.target.offsetTop
+
+    document.getElementById('tweet-options-delete').setAttribute('data-delete-tweet', e.target.dataset.tweetOptions)
+}
+
+function closeModal(){
+    tweetOptionsModal.style.display = 'none'
+}
+
 function getFeedHtml(){
     let feedHtml = ``
     
@@ -113,7 +148,11 @@ function getFeedHtml(){
                 <div class="tweet-inner">
                     <img src="${tweet.profilePic}" class="profile-pic">
                     <div>
-                        <p class="handle">${tweet.handle}</p>
+                        <div class="tweet-header ">
+                            <p class="handle">${tweet.handle}</p>
+                            <i class="tweet-options fa-solid fa-ellipsis" 
+                            data-tweet-options="${tweet.uuid}"></i>
+                        </div>
                         <p class="tweet-text">${tweet.tweetText}</p>
                         <div class="tweet-details">
                             <span class="tweet-detail">
